@@ -1,0 +1,86 @@
+
+
+    # def fit_all_submodels(self, Xtrain, Ytrain):
+    #     pass
+
+    # def fit(self, Xtrain, Ytrain, epochs, batch_size, lr=1e-2, verbose=0):
+
+    #     Ytrain=np.array(Ytrain, dtype=np.int32)
+    #     # save Ytrain for optimization
+    #     self.Yorig  = Ytrain
+    #     self.Ytrain = onehot(Ytrain, np.unique(Ytrain).shape[0]).to(self.device)
+    #     # print("ytrain.shape")
+    #     # print(self.Ytrain.shape)
+    #     # print(self.Ytrain)
+        
+    #     # train all models, predict
+    #     self.models = []
+    #     self.Ytrainhat = []
+    #     self.classes = np.unique(self.Yorig)
+
+    #     # init parameters
+    #     self.parameters = torch.rand((len(self.classifiers), len(self.classes)),
+    #                                  requires_grad=True, device=self.device)
+    #     # self.unit_projection(self.parameter)
+
+    #     # init optimizer
+    #     self.optimizer = torch.optim.Adam([self.parameters], lr=lr)
+
+    #     # fit all submodels
+    #     for Classifier in self.classifiers:
+    #         model = Classifier(Xtrain, Ytrain)
+    #         model.fit()
+    #         self.models.append(model)
+    #         self.Ytrainhat.append(model.all_p_values(Xtrain))
+        
+    #     return
+        
+    #     # optimize weights
+    #     self.Ytrainhat = to_torch(np.array(self.Ytrainhat), device=self.device)
+    #     self.Ytrainhat = self.Ytrainhat.squeeze().permute(1,0,2)
+    #     self.optimize_weights(epochs, batch_size, verbose)
+
+    
+    # def optimize_weights(self, epochs, batch_size, verbose=0):
+    #     project_freq = 10
+    #     # self.Ytrainhat.shape: (90,3,C), self.Ytrain: (90,3)
+    #     def predictpvalue(praw, weight):
+    #         return torch.matmul(weight, praw)
+    #     # loss function
+    #     lossfn = torch.nn.MSELoss(reduction='sum')
+    #     for i in range(epochs):
+    #         # training
+    #         for j, (praw, truep) in enumerate(zip(self.Ytrainhat, self.Ytrain)):
+    #             # phat: [[p0, p1, p2], [p0, p1, p2]]
+    #             # parameter: [a, b]
+    #             # p   : [0, 0, 1]
+    #             self.optimizer.zero_grad()
+    #             phat = torch.diagonal(predictpvalue(praw, self.parameters[self.Yorig[j]]), 0)
+    #             loss = lossfn(phat, truep)
+    #             loss.backward()
+    #             self.optimizer.step()
+    #             if j % project_freq == 0:
+    #                 for param in self.parameters:
+    #                     self.unit_projection(param)
+    #         # evaluation
+    #         with torch.no_grad():
+    #             loss = []
+    #             for praw, truep in zip(self.Ytrainhat, self.Ytrain):
+    #                 res = []
+    #                 for c in self.classes:
+    #                     res.append(lossfn(predictpvalue(praw, self.parameter), truep).item())
+                    
+    #             loss = np.array(loss).mean()
+    #             if verbose > 0:
+    #                 print(f"epoch {i} loss={loss}", self.parameter)
+
+
+
+
+
+
+
+
+
+
+    # model.fit(Xtrain, Ytrain, epochs=300, batch_size=1, verbose=1)
